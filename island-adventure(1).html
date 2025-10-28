@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏝️ ماجراجویی جزیره گمشده</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Professional Ocean Background */
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to top, 
+                rgba(52, 152, 219, 0.3) 0%,
+                rgba(52, 152, 219, 0.2) 50%,
+                transparent 100%
+            );
+            z-index: 0;
+            pointer-events: none;
+            animation: oceanMove 6s ease-in-out infinite;
+        }
+
+        @keyframes oceanMove {
+            0%, 100% { 
+                transform: translateY(0px);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-20px);
+                opacity: 0.5;
+            }
+        }
+
+        /* Animated bubbles */
+        .bubble {
+            position: fixed;
+            bottom: -50px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: riseBubble 8s infinite ease-in;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes riseBubble {
+            0% {
+                bottom: -50px;
+                transform: translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                bottom: 100vh;
+                transform: translateX(100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Particle system */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translate(var(--float-x), var(--float-y)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1000px;
+            width: 100%;
+            margin: 10px auto;
+            overflow: hidden;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Professional Intro Animation */
+        .intro-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                #0f2027 0%, 
+                #203a43 30%, 
+                #2c5364 60%,
+                #0f2027 100%
+            );
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeOut 1s ease-out 5s forwards;
+            perspective: 1000px;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        .storm-container {
+            position: relative;
+            width: 80%;
+            max-width: 500px;
+            height: 400px;
+            transform-style: preserve-3d;
+        }
+
+        .ship {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%) rotateY(0deg);
+            font-size: 5em;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+            animation: shipSinkingPro 5s ease-in-out;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes shipSinkingPro {
+            0% {
+                bottom: 120px;
+                transform: translateX(-50%) translateZ(0px) rotateY(0deg) rotateX(0deg);
+                opacity: 1;
+                filter: brightness(1);
+            }
+            15% {
+                transform: translateX(-50%) translateZ(20px) rotateY(-15deg) rotateX(-10deg);
+            }
+            30% {
+                transform: translateX(-50%) translateZ(-20px) rotateY(15deg) rotateX(10deg);
+            }
+            45% {
+                transform: translateX(-50%) translateZ(10px) rotateY(-10deg) rotateX(-5deg);
+            }
+            60% {
+                transform: translateX(-50%) translateZ(-10px) rotateY(10deg) rotateX(5deg);
+            }
+            80% {
+                bottom: 40px;
+                transform: translateX(-50%) translateZ(-30px) rotateY(-25deg) rotateX(15deg);
+                opacity: 0.6;
+                filter: brightness(0.7);
+            }
+            100% {
+                bottom: -100px;
+                transform: translateX(-50%) translateZ(-50px) rotateY(-45deg) rotateX(30deg);
+                opacity: 0;
+                filter: brightness(0.3);
+            }
+        }
+
+        .wave {
+            position: absolute;
+            width: 120%;
+            left: -10%;
+            height: 150px;
+            background: linear-gradient(to bottom, 
+                rgba(74, 144, 226, 0.9),
+                rgba(52, 152, 219, 0.7),
+                rgba(41, 128, 185, 0.5)
+            );
+            border-radius: 50%;
+            bottom: 0;
+            animation: wavePro 4s ease-in-out infinite;
+            box-shadow: 
+                0 -5px 20px rgba(52, 152, 219, 0.3),
+                0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: -1.5s;
+            opacity: 0.7;
+            height: 130px;
+        }
+
+        .wave:nth-child(3) {
+            animation-delay: -3s;
+            opacity: 0.5;
+            height: 110px;
+        }
+
+        @keyframes wavePro {
+            0%, 100% {
+                transform: translateX(0) translateY(0) scaleY(1);
+            }
+            25% {
+                transform: translateX(-30px) translateY(-10px) scaleY(1.1);
+            }
+            50% {
+                transform: translateX(-60px) translateY(0) scaleY(1);
+            }
+            75% {
+                transform: translateX(-30px) translateY(10px) scaleY(0.9);
+            }
+        }
+
+        .lightning {
+            position: absolute;
+            top: 15%;
+            left: 30%;
+            width: 4px;
+            height: 100px;
+            background: linear-gradient(to bottom, 
+                #fff 0%,
+                #ffeb3b 50%,
+                rgba(255, 235, 59, 0) 100%
+            );
+            box-shadow: 
+                0 0 40px #ffeb3b,
+                0 0 80px #ff9800,
+                0 0 120px #ff5722;
+            animation: flashPro 5s ease-in-out;
+            opacity: 0;
+            filter: blur(2px);
+        }
+
+        @keyframes flashPro {
+            8%, 12%, 16%, 20%, 24% {
+                opacity: 1;
+                transform: scaleY(1.2) translateX(-2px);
+            }
+            10%, 14%, 18%, 22%, 26% {
+                opacity: 0;
+                transform: scaleY(1) translateX(2px);
+            }
+        }
+
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.8),
+                rgba(255, 255, 255, 0)
+            );
+            animation: rainfall 1s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes rainfall {
+            0% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(400px);
+                opacity: 0;
+            }
+        }
+
+        .intro-text {
+            margin-top: 60px;
+            color: white;
+            font-size: clamp(1.3em, 4.5vw, 2em);
+            text-align: center;
+            animation: glowText 3s ease-in 2.5s forwards;
+            opacity: 0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        @keyframes glowText {
+            0% {
+                opacity: 0;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 255, 0.8),
+                    0 0 40px rgba(255, 215, 0, 0.6),
+                    0 0 60px rgba(255, 140, 0, 0.4);
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                text-shadow: 
+                    0 0 15px rgba(255, 255, 255, 0.7),
+                    0 0 30px rgba(255, 215, 0, 0.5);
+                transform: scale(1);
+            }
+        }
+
+        /* Professional Flying birds */
+        .bird {
+            position: fixed;
+            font-size: 2.5em;
+            animation: flyBirdPro 25s ease-in-out infinite;
+            z-index: 2;
+            opacity: 0.5;
+            pointer-events: none;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+            transform-style: preserve-3d;
+        }
+
+        @keyframes flyBirdPro {
+            0% {
+                left: -80px;
+                top: 20%;
+                transform: scale(0.8) rotateY(0deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.6;
+            }
+            25% {
+                transform: scale(1) rotateY(10deg);
+                top: 15%;
+            }
+            50% {
+                transform: scale(1.1) rotateY(-10deg);
+                top: 18%;
+            }
+            75% {
+                transform: scale(1) rotateY(5deg);
+                top: 12%;
+            }
+            95% {
+                opacity: 0.4;
+            }
+            100% {
+                left: 110%;
+                top: 10%;
+                transform: scale(0.8) rotateY(0deg);
+                opacity: 0;
+            }
+        }
+
+        .bird:nth-child(2) {
+            animation-delay: -8s;
+            font-size: 2em;
+        }
+
+        .bird:nth-child(3) {
+            animation-delay: -16s;
+            font-size: 2.2em;
+        }
+
+        /* Professional Moving clouds */
+        .cloud {
+            position: fixed;
+            font-size: 4em;
+            animation: moveCloudPro 40s linear infinite;
+            z-index: 1;
+            opacity: 0.25;
+            pointer-events: none;
+            filter: blur(2px) drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        }
+
+        @keyframes moveCloudPro {
+            0% {
+                left: -150px;
+                transform: scale(0.9);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                left: 110%;
+                transform: scale(0.9);
+            }
+        }
+
+        .cloud:nth-child(2) {
+            animation-delay: -20s;
+            top: 12%;
+            font-size: 3.5em;
+        }
+
+        /* Professional Fireworks */
+        .firework {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        .firework-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: explodePro 1.5s ease-out forwards;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes explodePro {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(var(--x), var(--y)) scale(1.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(calc(var(--x) * 1.5), calc(var(--y) * 1.5)) scale(0.2);
+                opacity: 0;
+            }
+        }
+
+        /* Particle trail */
+        .firework-particle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0.5;
+            animation: trail 1.5s ease-out forwards;
+        }
+
+        @keyframes trail {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Professional Coins with glow */
+        .coin {
+            position: fixed;
+            font-size: 2.5em;
+            animation: coinFallPro 2.5s ease-in forwards;
+            pointer-events: none;
+            z-index: 10000;
+            filter: drop-shadow(0 0 10px gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        @keyframes coinFallPro {
+            0% {
+                transform: translateY(-100px) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(-50px) rotate(180deg) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(1080deg) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* Character walking with bounce */
+        .walking-character {
+            position: fixed;
+            font-size: 3.5em;
+            z-index: 10000;
+            animation: walkAcrossPro 3s ease-in-out forwards;
+            filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.3));
+        }
+
+        @keyframes walkAcrossPro {
+            0% {
+                left: -100px;
+                transform: scaleX(1) translateY(0);
+            }
+            25% {
+                transform: scaleX(1) translateY(-10px);
+            }
+            50% {
+                transform: scaleX(1) translateY(0);
+            }
+            75% {
+                transform: scaleX(1) translateY(-10px);
+            }
+            100% {
+                left: 110%;
+                transform: scaleX(1) translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 20px 15px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .character-avatar {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            animation: wave 2s infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            25% { transform: translateY(-50%) rotate(-10deg); }
+            75% { transform: translateY(-50%) rotate(10deg); }
+        }
+
+        .sound-effect {
+            position: fixed;
+            font-size: 4em;
+            pointer-events: none;
+            animation: soundPop 1s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes soundPop {
+            0% {
+                opacity: 1;
+                transform: scale(0.5) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(2) translateY(-100px);
+            }
+        }
+
+        .header h1 {
+            font-size: clamp(1.3em, 5vw, 2.2em);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: clamp(0.9em, 3vw, 1.1em);
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.25);
+            padding: 8px 16px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            white-space: nowrap;
+        }
+
+        .game-screen {
+            padding: 20px 15px;
+            min-height: 300px;
+        }
+
+        .intro-screen {
+            text-align: center;
+        }
+
+        .intro-screen h2 {
+            color: #667eea;
+            font-size: clamp(1.3em, 4vw, 1.8em);
+            margin-bottom: 15px;
+        }
+
+        .intro-screen p {
+            font-size: clamp(0.95em, 3vw, 1.1em);
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .island-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .location {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .location:active {
+            transform: scale(0.95);
+        }
+
+        .location.completed {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            box-shadow: 0 4px 15px rgba(132, 250, 176, 0.4);
+        }
+
+        .location.locked {
+            background: linear-gradient(135deg, #c7c7c7 0%, #e8e8e8 100%);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        details {
+            cursor: pointer;
+        }
+
+        details summary {
+            user-select: none;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        details summary:hover {
+            background: #dee2e6 !important;
+        }
+
+        details[open] summary {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .location-icon {
+            font-size: clamp(2em, 8vw, 2.5em);
+            margin-bottom: 8px;
+        }
+
+        .location-title {
+            font-size: clamp(0.9em, 3vw, 1.1em);
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .location-status {
+            font-size: clamp(0.75em, 2.5vw, 0.85em);
+            color: #666;
+        }
+
+        .puzzle-screen {
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .puzzle-question {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .puzzle-question h3 {
+            color: #d63031;
+            font-size: clamp(1.2em, 4vw, 1.6em);
+            margin-bottom: 12px;
+        }
+
+        .puzzle-question p {
+            font-size: clamp(0.95em, 3vw, 1.1em);
+            color: #2d3436;
+            line-height: 1.7;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .answer-btn {
+            background: white;
+            border: 3px solid #667eea;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: clamp(0.95em, 3vw, 1.05em);
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #333;
+            font-weight: bold;
+            text-align: right;
+            width: 100%;
+        }
+
+        .answer-btn:active {
+            transform: scale(0.98);
+        }
+
+        .answer-btn.correct {
+            background: #00b894;
+            color: white;
+            border-color: #00b894;
+            animation: pulse 0.5s;
+        }
+
+        .answer-btn.wrong {
+            background: #d63031;
+            color: white;
+            border-color: #d63031;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: clamp(0.9em, 3vw, 1em);
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+
+        .feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: clamp(0.95em, 3vw, 1.1em);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .victory-screen {
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .victory-screen h2 {
+            color: #00b894;
+            font-size: clamp(1.5em, 6vw, 2.5em);
+            margin-bottom: 15px;
+        }
+
+        .victory-animation {
+            font-size: clamp(3em, 12vw, 5em);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hint-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+            color: #856404;
+            font-size: clamp(0.85em, 2.8vw, 0.95em);
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #00b894, #00cec9);
+            height: 100%;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: clamp(0.8em, 2.5vw, 0.95em);
+        }
+
+        @media (max-width: 480px) {
+            .game-screen {
+                padding: 15px 10px;
+            }
+            
+            .island-map {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Animation -->
+    <div class="intro-animation" id="introAnimation">
+        <div class="storm-container">
+            <div class="lightning"></div>
+            <!-- Rain drops -->
+            <div class="rain" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="rain" style="left: 20%; animation-delay: 0.2s;"></div>
+            <div class="rain" style="left: 30%; animation-delay: 0.4s;"></div>
+            <div class="rain" style="left: 40%; animation-delay: 0.1s;"></div>
+            <div class="rain" style="left: 50%; animation-delay: 0.3s;"></div>
+            <div class="rain" style="left: 60%; animation-delay: 0.5s;"></div>
+            <div class="rain" style="left: 70%; animation-delay: 0.2s;"></div>
+            <div class="rain" style="left: 80%; animation-delay: 0.4s;"></div>
+            <div class="rain" style="left: 90%; animation-delay: 0.1s;"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="ship">🚢</div>
+        </div>
+        <div class="intro-text">🏝️ به جزیره گمشده خوش آمدی! 🏝️</div>
+    </div>
+
+    <!-- Background animations -->
+    <div class="bird">🦜</div>
+    <div class="bird">🦅</div>
+    <div class="bird">🕊️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    
+    <!-- Bubbles -->
+    <div class="bubble" style="left: 10%; width: 30px; height: 30px; animation-delay: 0s;"></div>
+    <div class="bubble" style="left: 30%; width: 20px; height: 20px; animation-delay: 2s;"></div>
+    <div class="bubble" style="left: 50%; width: 40px; height: 40px; animation-delay: 4s;"></div>
+    <div class="bubble" style="left: 70%; width: 25px; height: 25px; animation-delay: 1s;"></div>
+    <div class="bubble" style="left: 85%; width: 35px; height: 35px; animation-delay: 3s;"></div>
+
+    <div class="game-container">
+        <div class="header">
+            <div class="character-avatar">🧒</div>
+            <h1>🏝️ ماجراجویی جزیره گمشده</h1>
+            <div class="score-board">
+                <div class="score-item">
+                    ⭐ امتیاز: <span id="score">0</span>
+                </div>
+                <div class="score-item">
+                    🎯 مرحله: <span id="level">0</span>/10
+                </div>
+            </div>
+        </div>
+
+        <div class="game-screen" id="gameScreen">
+            <!-- محتوا به صورت داینامیک اضافه می‌شود -->
+        </div>
+    </div>
+
+    <script>
+        const gameState = {
+            score: 0,
+            level: 0,
+            completedLocations: [],
+            currentPuzzle: null,
+            attempts: {} // track attempts per puzzle
+        };
+
+        function playSoundEffect(emoji, x, y) {
+            const effect = document.createElement('div');
+            effect.className = 'sound-effect';
+            effect.textContent = emoji;
+            effect.style.left = x + 'px';
+            effect.style.top = y + 'px';
+            document.body.appendChild(effect);
+            setTimeout(() => effect.remove(), 1000);
+        }
+
+        function createFireworks(x, y) {
+            const colors = [
+                '#ff6b6b', '#4ecdc4', '#45b7d1', '#ffa07a', 
+                '#98d8c8', '#f7dc6f', '#ff1744', '#00e676',
+                '#ffea00', '#00b0ff', '#d500f9', '#ff6d00'
+            ];
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = x + 'px';
+            firework.style.top = y + 'px';
+            
+            // Create more particles for bigger explosion
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework-particle';
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.backgroundColor = color;
+                particle.style.boxShadow = `0 0 20px ${color}`;
+                
+                const angle = (Math.PI * 2 * i) / 50;
+                const velocity = 60 + Math.random() * 80;
+                particle.style.setProperty('--x', `${Math.cos(angle) * velocity}px`);
+                particle.style.setProperty('--y', `${Math.sin(angle) * velocity}px`);
+                particle.style.animationDelay = Math.random() * 0.1 + 's';
+                
+                firework.appendChild(particle);
+            }
+            
+            document.body.appendChild(firework);
+            setTimeout(() => firework.remove(), 2000);
+        }
+
+        function createCoins() {
+            const coinTypes = ['⭐', '💎', '🏆', '💰', '✨'];
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const coin = document.createElement('div');
+                    coin.className = 'coin';
+                    coin.textContent = coinTypes[Math.floor(Math.random() * coinTypes.length)];
+                    coin.style.left = (Math.random() * 80 + 10) + '%';
+                    coin.style.animationDelay = Math.random() * 0.3 + 's';
+                    coin.style.animationDuration = (2 + Math.random()) + 's';
+                    document.body.appendChild(coin);
+                    setTimeout(() => coin.remove(), 3000);
+                }, i * 80);
+            }
+        }
+
+        function createWalkingCharacter() {
+            const character = document.createElement('div');
+            character.className = 'walking-character';
+            character.textContent = '🚶‍♂️';
+            character.style.bottom = '20%';
+            document.body.appendChild(character);
+            setTimeout(() => character.remove(), 3000);
+        }
+
+        function getStars(attempts) {
+            if (attempts === 1) return '⭐⭐⭐';
+            if (attempts === 2) return '⭐⭐';
+            return '⭐';
+        }
+
+        function countStars(starsString) {
+            // Count the number of star emojis
+            return (starsString.match(/⭐/g) || []).length;
+        }
+
+        const puzzles = [
+            {
+                id: 1,
+                location: 'ساحل طلایی',
+                icon: '🏖️',
+                question: 'در ساحل ۲۴ صدف پیدا کردی. می‌خواهی آنها را به طور مساوی بین خودت و ۳ دوست دیگرت تقسیم کنی. هر نفر چند صدف می‌گیرد؟',
+                answers: ['۶ صدف', '۸ صدف', '۵ صدف', '۷ صدف'],
+                correct: 0,
+                explanation: 'آفرین! ۴ نفر هستید (تو + ۳ دوست). ۲۴ ÷ ۴ = ۶ صدف برای هر نفر 🐚',
+                hint: 'چند نفر جمعاً هستید؟ خودت را فراموش نکن!'
+            },
+            {
+                id: 2,
+                location: 'جنگل انبوه',
+                icon: '🌳',
+                question: 'در جنگل ۳ درخت سیب دیدی. روی هر درخت ۱۲ سیب رسیده است. اگر ۹ تا از سیب‌ها را بچینی، چند سیب روی درخت‌ها باقی می‌ماند؟',
+                answers: ['۲۷ سیب', '۲۱ سیب', '۳۰ سیب', '۲۴ سیب'],
+                correct: 0,
+                explanation: 'عالی! اول کل سیب‌ها: ۳ × ۱۲ = ۳۶ سیب. حالا اگر ۹ تا بچینی: ۳۶ - ۹ = ۲۷ سیب باقی می‌ماند 🍎',
+                hint: 'اول کل سیب‌ها را حساب کن، بعد تعدادی که چیدی را کم کن!'
+            },
+            {
+                id: 3,
+                location: 'غار سنگی',
+                icon: '⛰️',
+                question: 'در غار خفاش‌هایی دیدی که سرشان پایین آویزون هستند. چرا خفاش‌ها وارونه می‌خوابند؟',
+                answers: ['چون پاهایشان ضعیف است و نمی‌توانند بایستند', 'چون دوست دارند سرگیجه بگیرند', 'چون از دشمنان فرار می‌کنند', 'چون می‌خواهند مثل پرنده باشند'],
+                correct: 0,
+                explanation: 'درست است! خفاش‌ها پاهای کوچک و ضعیف دارند که نمی‌توانند وزنشان را نگه دارند. ولی چنگ زدن و آویزون شدن برایشان خیلی راحت است! همچنین وقت پرواز هم سریع‌تر می‌توانند خودشان را رها کنند و پرواز کنند! 🦇',
+                hint: 'فکر کن به بدن خفاش - کدام قسمت بدنش قوی‌تر است؟'
+            },
+            {
+                id: 4,
+                location: 'پل معلق',
+                icon: '🌉',
+                question: 'یک پل معلق جلوی توست که حداکثر ۲ نفر می‌توانند همزمان روی آن باشند. شب است و فقط ۱ چراغ‌قوه دارید که باید با کسی که رد می‌شود باشد. تو ۱ دقیقه، دوست اول ۲ دقیقه، دوست دوم ۵ دقیقه و دوست سوم ۱۰ دقیقه زمان می‌برند. حداقل چند دقیقه طول می‌کشد تا همه ۴ نفر عبور کنید؟',
+                answers: ['۱۸ دقیقه', '۱۷ دقیقه', '۱۹ دقیقه', '۲۰ دقیقه'],
+                correct: 1,
+                explanation: 'عالی! بهترین راه: ۱) تو + دوست اول میرید (۲ دقیقه - کندترین شما دو نفر) ۲) تو برمی‌گردی با چراغ (۱ دقیقه) ۳) دوست دوم + دوست سوم میروند (۱۰ دقیقه - کندترین آن دو) ۴) دوست اول برمی‌گردد (۲ دقیقه) ۵) تو + دوست اول میروید (۲ دقیقه). جمع: ۲+۱+۱۰+۲+۲ = ۱۷ دقیقه! 🎯',
+                hint: 'دو نفر کندترین‌ها را با هم بفرست تا زمانشان همپوشانی داشته باشد! تو و سریع‌ترین‌ها چراغ را برگردانید.'
+            },
+            {
+                id: 5,
+                location: 'دریاچه آبی',
+                icon: '💧',
+                question: 'کنار دریاچه یک برگه نیلوفر آبی دیدی که هر روز دو برابر می‌شود. اگر ۳۰ روز طول بکشد تا کل دریاچه را بپوشاند، چند روز طول می‌کشد تا نصف دریاچه را بپوشاند؟',
+                answers: ['۱۵ روز', '۲۹ روز', '۲۰ روز', '۲۵ روز'],
+                correct: 1,
+                explanation: 'فوق‌العاده! در روز ۲۹ نصف دریاچه پوشیده است و روز بعد دو برابر می‌شود و کل دریاچه را می‌پوشاند! 🌿',
+                hint: 'اگر هر روز دو برابر می‌شود، یک روز قبل از تمام شدن چقدر بوده؟'
+            },
+            {
+                id: 6,
+                location: 'کوه آتشفشان',
+                icon: '🌋',
+                question: 'نزدیک آتشفشان سنگ‌های مختلف دیدی. یکی از آنها پُوکی (pumice) نام دارد که روی آب شناور می‌ماند! چرا این سنگ روی آب می‌ماند؟',
+                answers: ['خیلی سبک و نازک است', 'پُر از حفره‌های هوا است', 'ضخیم و سنگین است', 'مواد جادویی دارد'],
+                correct: 1,
+                explanation: 'عالی! سنگ پُوکی هنگام فوران آتشفشان با گازها پُر می‌شود و حفره‌های زیادی دارد که آن را سبک‌تر از آب می‌کند 🪨',
+                hint: 'فکر کن به چیزی که پُر از هوا است!'
+            },
+            {
+                id: 7,
+                location: 'باغ گمشده',
+                icon: '🌺',
+                question: 'در باغ ۱۸ گل قرمز و ۲۴ گل آبی داری. می‌خواهی دسته‌های یکسان بسازی که در هر دسته تعداد برابری گل قرمز و آبی باشد و همه گل‌ها استفاده شوند. بیشترین تعداد دسته که می‌توانی بسازی چند تاست؟',
+                answers: ['۳ دسته', '۶ دسته', '۹ دسته', '۱۲ دسته'],
+                correct: 1,
+                explanation: 'بسیار عالی! بزرگترین عدد مشترکی که بر ۱۸ و ۲۴ بخش‌پذیر است، ۶ است. پس ۶ دسته می‌سازی: هر دسته ۳ گل قرمز (۱۸÷۶) و ۴ گل آبی (۲۴÷۶) دارد 💐',
+                hint: 'چه عددی بر هر دو عدد ۱۸ و ۲۴ بخش‌پذیر است؟ بزرگترینش را پیدا کن!'
+            },
+            {
+                id: 8,
+                location: 'برج ساعت',
+                icon: '🕐',
+                question: 'برج ساعت جزیره هر ۳ ساعت یک بار زنگ می‌زند. اگر اولین زنگ ساعت ۶ صبح باشد، در یک شبانه‌روز (۲۴ ساعت) چند بار زنگ می‌زند؟',
+                answers: ['۶ بار', '۸ بار', '۷ بار', '۹ بار'],
+                correct: 1,
+                explanation: 'درست است! ساعت‌های زنگ: ۶، ۹، ۱۲، ۱۵، ۱۸، ۲۱، ۲۴ (۰)، ۳ = ۸ بار 🔔',
+                hint: 'شمارش کن: ۲۴ ÷ ۳ = ؟ (اما شروع را فراموش نکن!)'
+            },
+            {
+                id: 9,
+                location: 'اتاق آینه',
+                icon: '🪞',
+                question: 'وارد اتاقی شدی با ۲ آینه موازی که رو به روی هم هستند. اگر بین آنها بایستی، تعداد تصاویری که از خودت می‌بینی چند تا است؟',
+                answers: ['۲ تصویر', 'بی‌نهایت تصویر', '۱۰ تصویر', '۴ تصویر'],
+                correct: 1,
+                explanation: 'دقیقاً! آینه‌های موازی بازتاب بی‌پایانی از تصاویر ایجاد می‌کنند که هر کدام بازتابی از دیگری هستند! ✨',
+                hint: 'هر آینه تصویر آینه دیگر را نشان می‌دهد و این تا ابد ادامه دارد!'
+            },
+            {
+                id: 10,
+                location: 'گنج نهایی',
+                icon: '💎',
+                question: 'به گنج رسیدی! صندوقچه با قفل رمزی است. رمز این است: "سه عدد متوالی با هم جمع می‌شوند و جوابشان ۴۸ می‌شود. کوچک‌ترین این سه عدد کدام است؟"',
+                answers: ['۱۴', '۱۵', '۱۶', '۱۷'],
+                correct: 1,
+                explanation: 'عالی! سه عدد متوالی: ۱۵، ۱۶، ۱۷ هستند. جمع: ۱۵+۱۶+۱۷ = ۴۸ ✓ و کوچکترین آنها ۱۵ است! 🎉',
+                hint: 'عدد وسطی را پیدا کن! ۴۸ تقسیم بر ۳ چقدر است؟'
+            }
+        ];
+
+        function updateScore(points) {
+            gameState.score += points;
+            document.getElementById('score').textContent = gameState.score;
+        }
+
+        function updateLevel() {
+            gameState.level = gameState.completedLocations.length;
+            document.getElementById('level').textContent = gameState.level;
+        }
+
+        function showIntro() {
+            const screen = document.getElementById('gameScreen');
+            screen.innerHTML = `
+                <div class="intro-screen">
+                    <h2>🏴‍☠️ به جزیره گمشده خوش آمدی!</h2>
+                    <p>کشتی تو در طوفان غرق شده و به این جزیره مرموز رسیده‌ای! 🌊</p>
+                    <p>برای اینکه راه فرار پیدا کنی، باید ۱۰ مکان مختلف جزیره را کشف کنی و معماهای آنها را حل کنی!</p>
+                    <p>در هر مکان یک چالش هیجان‌انگیز در انتظار توست. آماده‌ای؟ 🗺️</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%">
+                            ۰٪ تکمیل شده
+                        </div>
+                    </div>
+                    <button class="btn" onclick="showMap()">🚀 شروع ماجراجویی</button>
+                </div>
+            `;
+        }
+
+        function showMap() {
+            const screen = document.getElementById('gameScreen');
+            const progress = (gameState.level / puzzles.length) * 100;
+            
+            let mapHTML = `
+                <div>
+                    <h2 style="text-align: center; color: #667eea; margin-bottom: 15px; font-size: clamp(1.2em, 4vw, 1.6em);">🗺️ نقشه جزیره</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%">
+                            ${Math.round(progress)}٪ تکمیل شده
+                        </div>
+                    </div>
+                    <div class="island-map">
+            `;
+
+            puzzles.forEach((puzzle, index) => {
+                const isCompleted = gameState.completedLocations.includes(puzzle.id);
+                const isLocked = index > gameState.level;
+                const attempts = gameState.attempts[puzzle.id] || 0;
+                const stars = isCompleted ? getStars(attempts) : '';
+                
+                let status = '🔒 قفل شده';
+                if (isCompleted) {
+                    status = `✅ ${stars}`;
+                } else if (!isLocked) {
+                    status = '📍 آماده کشف';
+                }
+                
+                const className = isCompleted ? 'completed' : isLocked ? 'locked' : '';
+                const onclick = isLocked ? '' : `onclick="startPuzzle(${index})"`;
+
+                mapHTML += `
+                    <div class="location ${className}" ${onclick}>
+                        <div class="location-icon">${puzzle.icon}</div>
+                        <div class="location-title">${puzzle.location}</div>
+                        <div class="location-status">${status}</div>
+                    </div>
+                `;
+            });
+
+            mapHTML += `
+                    </div>
+                </div>
+            `;
+
+            screen.innerHTML = mapHTML;
+
+            if (gameState.level === puzzles.length) {
+                setTimeout(() => showVictory(), 500);
+            }
+        }
+
+        function startPuzzle(index) {
+            const puzzle = puzzles[index];
+            gameState.currentPuzzle = puzzle;
+            
+            // Initialize attempts for this puzzle if not exists
+            if (!gameState.attempts[puzzle.id]) {
+                gameState.attempts[puzzle.id] = 0;
+            }
+            gameState.attempts[puzzle.id]++;
+            
+            const screen = document.getElementById('gameScreen');
+            let answersHTML = '';
+            
+            puzzle.answers.forEach((answer, i) => {
+                answersHTML += `
+                    <button class="answer-btn" onclick="checkAnswer(${i})">${answer}</button>
+                `;
+            });
+
+            const attemptText = gameState.attempts[puzzle.id] > 1 ? 
+                `<div style="color: #ff6b6b; margin-bottom: 10px;">تلاش شماره ${gameState.attempts[puzzle.id]}</div>` : '';
+
+            screen.innerHTML = `
+                <div class="puzzle-screen">
+                    ${attemptText}
+                    <div class="puzzle-question">
+                        <h3>${puzzle.icon} ${puzzle.location}</h3>
+                        <p>${puzzle.question}</p>
+                    </div>
+                    <div class="answer-options">
+                        ${answersHTML}
+                    </div>
+                    <div id="feedback"></div>
+                    <div class="hint-box">
+                        💡 <strong>راهنمایی:</strong> ${puzzle.hint}
+                    </div>
+                    <button class="btn btn-secondary" onclick="showMap()">🔙 بازگشت به نقشه</button>
+                </div>
+            `;
+        }
+
+        function checkAnswer(answerIndex) {
+            const puzzle = gameState.currentPuzzle;
+            const buttons = document.querySelectorAll('.answer-btn');
+            const feedbackDiv = document.getElementById('feedback');
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+
+            if (answerIndex === puzzle.correct) {
+                buttons[answerIndex].classList.add('correct');
+                
+                // افکت صوتی موفقیت
+                const btn = buttons[answerIndex];
+                const rect = btn.getBoundingClientRect();
+                playSoundEffect('🎉', rect.left + rect.width/2, rect.top);
+                setTimeout(() => playSoundEffect('⭐', rect.left + rect.width/2 - 50, rect.top), 200);
+                setTimeout(() => playSoundEffect('✨', rect.left + rect.width/2 + 50, rect.top), 400);
+                
+                // آتش بازی!
+                setTimeout(() => {
+                    createFireworks(window.innerWidth / 2, window.innerHeight / 2);
+                    createFireworks(window.innerWidth / 3, window.innerHeight / 3);
+                    createFireworks(2 * window.innerWidth / 3, window.innerHeight / 3);
+                }, 500);
+                
+                // سکه‌ها بریزن!
+                setTimeout(() => createCoins(), 800);
+                
+                updateScore(100);
+                
+                if (!gameState.completedLocations.includes(puzzle.id)) {
+                    gameState.completedLocations.push(puzzle.id);
+                    updateLevel();
+                }
+
+                feedbackDiv.innerHTML = `
+                    <div class="feedback success">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🎉 آفرین! 🏆</div>
+                        <strong>جواب درست است!</strong>
+                        <p>${puzzle.explanation}</p>
+                        <button class="btn" onclick="goToNextLocation()" style="margin-top: 15px;">
+                            ${gameState.level === puzzles.length ? '🏆 دیدن نتیجه' : 'ادامه ماجراجویی 🚀'}
+                        </button>
+                    </div>
+                `;
+            } else {
+                buttons[answerIndex].classList.add('wrong');
+                buttons[puzzle.correct].classList.add('correct');
+                
+                // افکت صوتی اشتباه
+                const btn = buttons[answerIndex];
+                const rect = btn.getBoundingClientRect();
+                playSoundEffect('😅', rect.left + rect.width/2, rect.top);
+                
+                feedbackDiv.innerHTML = `
+                    <div class="feedback error">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🤔 نزدیک بود!</div>
+                        <strong>این دفعه درست نشد، اما می‌تونی دوباره امتحان کنی!</strong>
+                        <p>${puzzle.explanation}</p>
+                        <button class="btn" onclick="startPuzzle(${puzzles.indexOf(puzzle)})" style="margin-top: 15px;">
+                            🔄 تلاش دوباره
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function goToNextLocation() {
+            if (gameState.level === puzzles.length) {
+                showMap();
+            } else {
+                // شخصیت راه بره
+                createWalkingCharacter();
+                setTimeout(() => showMap(), 1500);
+            }
+        }
+
+        function showVictory() {
+            const screen = document.getElementById('gameScreen');
+            
+            // جشن بزرگ!
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createFireworks(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight / 2
+                    );
+                }, i * 300);
+            }
+            
+            // سکه‌های زیاد!
+            setTimeout(() => {
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => createCoins(), i * 500);
+                }
+            }, 500);
+            
+            // Calculate total stars
+            let totalStars = 0;
+            let starsHTML = '';
+            puzzles.forEach(puzzle => {
+                const attempts = gameState.attempts[puzzle.id] || 1;
+                const stars = getStars(attempts);
+                totalStars += countStars(stars);
+                starsHTML += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 8px 0; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        <span>${puzzle.icon} ${puzzle.location}</span>
+                        <span>${stars}</span>
+                    </div>
+                `;
+            });
+
+            const maxStars = puzzles.length * 3;
+            const percentage = Math.round((totalStars / maxStars) * 100);
+            
+            screen.innerHTML = `
+                <div class="victory-screen">
+                    <div class="victory-animation">🏆</div>
+                    <h2>تبریک! جزیره رو فتح کردی! 🎉</h2>
+                    <p style="font-size: clamp(1em, 3.5vw, 1.2em); color: #555; margin: 20px 0;">
+                        تو هر ۱۰ مرحله رو با موفقیت پشت سر گذاشتی! 🚢
+                    </p>
+                    <div style="font-size: clamp(1.1em, 4vw, 1.4em); margin: 25px 0;">
+                        <div style="margin-bottom: 10px;">امتیاز نهایی: <strong style="color: #667eea;">${gameState.score}</strong> ⭐</div>
+                        <div style="color: #00b894; font-size: 0.9em;">ستاره‌های کسب شده: ${totalStars} از ${maxStars} (${percentage}%) ⭐</div>
+                    </div>
+                    
+                    <details style="margin: 20px auto; max-width: 400px; text-align: right;">
+                        <summary style="cursor: pointer; font-weight: bold; padding: 10px; background: #e9ecef; border-radius: 8px; margin-bottom: 10px;">
+                            📊 جزئیات مراحل
+                        </summary>
+                        <div style="margin-top: 10px;">
+                            ${starsHTML}
+                        </div>
+                    </details>
+
+                    <div style="font-size: clamp(2em, 8vw, 3em); margin: 20px 0;">
+                        ${percentage >= 90 ? '🌟 🏅 🎊 💎 ✨ 🔥' : percentage >= 70 ? '🎊 🌟 🎨 🚀 ✨' : '🎉 ⭐ 🎯 💪'}
+                    </div>
+                    <p style="font-size: clamp(0.95em, 3vw, 1.05em); color: #666; line-height: 1.6;">
+                        ${percentage >= 90 ? 'عالی! تو یک نابغه‌ای! 🧠' : percentage >= 70 ? 'خیلی خوب بود! تو یک حل‌کننده معما حرفه‌ای هستی! 🎯' : 'آفرین! تو تونستی همه معماها رو حل کنی! 💪'}
+                    </p>
+                    <button class="btn" onclick="restartGame()" style="margin-top: 25px;">
+                        🔄 بازی دوباره
+                    </button>
+                </div>
+            `;
+        }
+
+        function restartGame() {
+            gameState.score = 0;
+            gameState.level = 0;
+            gameState.completedLocations = [];
+            gameState.currentPuzzle = null;
+            gameState.attempts = {};
+            document.getElementById('score').textContent = '0';
+            document.getElementById('level').textContent = '0';
+            showIntro();
+        }
+
+        // شروع بازی
+        setTimeout(() => {
+            const intro = document.getElementById('introAnimation');
+            if (intro) {
+                intro.style.display = 'none';
+            }
+        }, 5000);
+        
+        showIntro();
+    </script>
+</body>
+</html>
